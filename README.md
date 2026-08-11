@@ -1,26 +1,28 @@
 # filament-media-library
 
+> 🌐 Other languages: [中文](README.zh-CN.md)
+
 Decoupled, independently publishable **Filament 4 media library**: a central media store + reusable picker (`MediaPicker`) + folders + tags + multi-disk / OSS + multi-tenancy + content dedup + rich-text insertion.
 
-> **与 spatie/laravel-medialibrary 的区别**：本包不提供「模型附媒体」的 `InteractsWithMedia` 模式，而是提供**集中式媒体库 + 弹窗选择器**。表单字段只持久化 `media_id`（或 id 数组），媒体文件统一存于中央 `media` 表，便于去重、跨模块引用追踪与统一磁盘/租户管理。二者不冲突，可按需并存。
+> **How it differs from `spatie/laravel-medialibrary`**: This package does *not* provide the `InteractsWithMedia` "attach media to a model" pattern. Instead it offers a **central media library + popup picker**. A form field only persists the `media_id` (or an array of ids); the actual files live in a central `media` table, which makes dedup, cross-module reference tracking, and unified disk/tenant management straightforward. The two packages don't conflict and can coexist.
 
 ---
 
-## 要求
+## Requirements
 
 - PHP `^8.2`
-- Laravel `11` 或 `12`
+- Laravel `11` or `12`
 - Filament `^4`
 
 ---
 
-## 安装
+## Installation
 
 ```bash
 composer require raise-studio/filament-media-library
 ```
 
-迁移会自动加载。如要自定义表前缀 / 磁盘 / 语言包，可发布资源：
+Migrations are loaded automatically. To customize the table prefix / disk / language files, publish the assets:
 
 ```bash
 php artisan vendor:publish --tag=media-library-config
@@ -30,9 +32,9 @@ php artisan vendor:publish --tag=media-library-translations
 
 ---
 
-## 面板注册
+## Panel registration
 
-在任意 Filament 面板里挂上插件（picker 的视图 / 上传路由 / 迁移依赖它，**必须注册**）：
+Attach the plugin in any Filament panel (the picker's views / upload routes / migrations depend on it, so registration is **required**):
 
 ```php
 use RaiseStudio\FilamentMediaLibrary\FilamentMediaLibraryPlugin;
@@ -45,13 +47,13 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-插件会自动注册 `MediaLibraryResource`（媒体管理后台）。
+The plugin auto-registers `MediaLibraryResource` (the media management admin).
 
 ---
 
-## 在你的表单里使用 MediaPicker
+## Using MediaPicker in your forms
 
-`MediaPicker` 是标准 Filament `Field` 子类，**无需面板注册即可直接使用**：
+`MediaPicker` is a standard Filament `Field` subclass and **works directly without any panel registration**:
 
 ```php
 use RaiseStudio\FilamentMediaLibrary\Filament\Forms\Components\MediaPicker;
@@ -71,56 +73,56 @@ public static function form(Schema $schema): Schema
 }
 ```
 
-字段只持久化 `media_id`（单值）或 id 数组（multiple）；回写经 Alpine `$entangle` 推到 Livewire。
+The field only persists `media_id` (single value) or an array of ids (multiple); the write-back is pushed to Livewire via Alpine `$entangle`.
 
-> forge 用户可用更薄的封装 `RaiseStudio\FilamentForge\Fields\ForgeMediaField::avatar()/image()/file()`，它在未装本包时降级为原生 `FileUpload`。
+> forge users may use the thinner wrapper `RaiseStudio\FilamentForge\Fields\ForgeMediaField::avatar()/image()/file()`, which falls back to the native `FileUpload` when this package is not installed.
 
 ---
 
-## 配置
+## Configuration
 
-`config/media-library.php` 关键项（发布后可覆盖）：
+Key entries in `config/media-library.php` (overridable after publishing):
 
-| 键 | 默认 | 说明 |
+| Key | Default | Description |
 |----|------|------|
-| `table_prefix` | `''` | 表前缀。**建议设为 `rs_` 一类前缀**，避免与 spatie/laravel-medialibrary 的 `media` 表撞名。 |
-| `media_disk` | `public` | 写入磁盘；切换 OSS/COS/S3 只需在宿主注册对应磁盘并设 `MEDIA_LIBRARY_DISK`。 |
-| `user_model` | `App\Models\User::class` | 上传人模型（去重归属 `created_by`）。 |
-| `register_navigation` | `true` | 独立使用时自带导航；forge 集成设 `false`。 |
-| `tenant_resolver` | `NullTenantResolver` | 多租户解析器契约实现；单租户用 `NullTenantResolver`。 |
-| `use_shield` | `null` | 留空=自动探测：装了 Filament Shield 则交由 Shield，否则注册自带 Policy 自我保护。 |
-| `dedup` | `true` | 按 sha256 复用，已存在则不重复落盘。 |
-| `allowed_mimes` | 图片/文档/压缩包/音视频 | 上传白名单（不含可执行文件）。 |
+| `table_prefix` | `''` | Table prefix. **Recommended: set something like `rs_`** to avoid colliding with `spatie/laravel-medialibrary`'s `media` table. |
+| `media_disk` | `public` | Write disk; switch to OSS/COS/S3 by registering the disk in the host and setting `MEDIA_LIBRARY_DISK`. |
+| `user_model` | `App\Models\User::class` | Uploader model (dedup ownership `created_by`). |
+| `register_navigation` | `true` | Ships its own navigation when used standalone; set `false` for forge integration. |
+| `tenant_resolver` | `NullTenantResolver` | Multi-tenancy resolver contract implementation; use `NullTenantResolver` for single-tenant. |
+| `use_shield` | `null` | Leave empty = auto-detect: if Filament Shield is installed, defer to Shield; otherwise register the built-in Policy for self-protection. |
+| `dedup` | `true` | Reuse by sha256; if it already exists, don't write again. |
+| `allowed_mimes` | images / docs / archives / av | Upload allowlist (no executables). |
 
 ---
 
-## 多租户
+## Multi-tenancy
 
-实现 `RaiseStudio\FilamentMediaLibrary\Tenancy\ResolvesTenant` 契约，在配置里指定：
+Implement the `RaiseStudio\FilamentMediaLibrary\Tenancy\ResolvesTenant` contract and reference it in config:
 
 ```php
 'tenant_resolver' => App\Tenancy\MyTenantResolver::class,
 ```
 
-解析器负责返回当前 `tenant_id` 与超管判定；媒体路径会自动加 `t-{id}/` 前缀（磁盘无关）。
+The resolver returns the current `tenant_id` and the super-admin check; media paths automatically get a `t-{id}/` prefix (disk-agnostic).
 
 ---
 
-## OSS / 对象存储
+## OSS / Object storage
 
-本包**不绑定**任何 S3/OSS/COS 适配器。在宿主 `config/filesystems.php` 注册对应磁盘后，设 `MEDIA_LIBRARY_DISK=oss` 即可整体切换，媒体库读盘与 URL 生成全部经 Laravel Storage 抽象透明生效。详见 `docs/oss-storage-integration.md`。
-
----
-
-## 安全说明
-
-- 上传端点 `POST /media-library/upload` 受 `auth` 中间件保护，**匿名上传被拒**（未登录返回 401）。
-- 上传按 `allowed_mimes` 白名单做 `mimes` 校验，默认不含可执行文件。
-- `use_shield` 留空时自动探测 Shield；未装 Shield 则注册自带 `MediaPolicy`，保证媒体模型有授权。
+This package is **not bound** to any S3/OSS/COS adapter. After registering the corresponding disk in the host `config/filesystems.php`, set `MEDIA_LIBRARY_DISK=oss` to switch everything over; the library's disk reads and URL generation all go through the Laravel Storage abstraction transparently. See `docs/oss-storage-integration.md` for details.
 
 ---
 
-## 测试
+## Security
+
+- The upload endpoint `POST /media-library/upload` is protected by the `auth` middleware; **anonymous uploads are rejected** (401 if not logged in).
+- Uploads are validated against the `allowed_mimes` allowlist via `mimes`; executables are excluded by default.
+- When `use_shield` is left empty it auto-detects Shield; if Shield is not installed, the built-in `MediaPolicy` is registered so the media model is always authorized.
+
+---
+
+## Testing
 
 ```bash
 vendor/bin/pest
