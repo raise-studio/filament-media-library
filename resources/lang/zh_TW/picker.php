@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'choose' => '選擇媒體',
+    'title' => '媒體庫',
+    'title_image' => '選擇圖片',
+    'title_file' => '選擇檔案',
+    'upload' => '上傳',
+    'uploading' => '上傳中…',
+    'drag_hint' => '拖曳或點選檔案上傳',
+    'hint' => '從已有媒體中選擇，或上傳新檔案',
+    'empty' => '暫無媒體，請先上傳',
+    'search' => '搜尋檔案…',
+    'selected' => '已選 {n} 項',
+    'clear' => '移除',
+    'rechoose' => '重新選擇',
+    'cancel' => '取消',
+    'done' => '完成',
+    'tab_all' => '全部',
+    'tab_image' => '圖片',
+    'tab_file' => '檔案',
+    'pager_total' => '共 {n} 項',
+    'pager_prev' => '上一頁',
+    'pager_next' => '下一頁',
+];

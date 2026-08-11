@@ -1,0 +1,44 @@
+{
+    "name": "raise-studio/filament-media-library",
+    "description": "Decoupled, independently publishable Filament media library plugin: central media + reusable picker + folders + tags + multi-disk/OSS + multi-tenancy + content dedup + rich-text insertion.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "RaiseStudio"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^4",
+        "illuminate/contracts": "^11.0 || ^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0",
+        "phpunit/phpunit": "^11.5"
+    },
+    "suggest": {
+        "bezhansalleh/filament-shield": "Optional; enable use_shield=true to let Filament Shield manage permissions (avoids dual-policy conflicts)."
+    },
+    "autoload": {
+        "psr-4": {
+            "RaiseStudio\\FilamentMediaLibrary\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RaiseStudio\\FilamentMediaLibrary\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "RaiseStudio\\FilamentMediaLibrary\\MediaLibraryServiceProvider"
+            ],
+            "facades": {
+                "MediaLibrary": "RaiseStudio\\FilamentMediaLibrary\\Facades\\MediaLibrary"
+            }
+        }
+    },
+    "prefer-stable": true
+}

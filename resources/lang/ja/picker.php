@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'choose' => 'メディアを選択',
+    'title' => 'メディアライブラリ',
+    'title_image' => '画像を選択',
+    'title_file' => 'ファイルを選択',
+    'upload' => 'アップロード',
+    'uploading' => 'アップロード中…',
+    'drag_hint' => 'ドラッグまたはクリックでアップロード',
+    'hint' => '既存のメディアから選択、または新規アップロード',
+    'empty' => 'メディアがありません。まずアップロードしてください',
+    'search' => 'ファイルを検索…',
+    'selected' => '選択中 {n} 件',
+    'clear' => '削除',
+    'rechoose' => '再選択',
+    'cancel' => 'キャンセル',
+    'done' => '完了',
+    'tab_all' => 'すべて',
+    'tab_image' => '画像',
+    'tab_file' => 'ファイル',
+    'pager_total' => '全 {n} 件',
+    'pager_prev' => '前へ',
+    'pager_next' => '次へ',
+];

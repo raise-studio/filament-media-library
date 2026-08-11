@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'choose' => '미디어 선택',
+    'title' => '미디어 라이브러리',
+    'title_image' => '이미지 선택',
+    'title_file' => '파일 선택',
+    'upload' => '업로드',
+    'uploading' => '업로드 중…',
+    'drag_hint' => '드래그하거나 클릭하여 업로드',
+    'hint' => '기존 미디어에서 선택하거나 새 파일 업로드',
+    'empty' => '미디어가 없습니다. 먼저 업로드하세요',
+    'search' => '파일 검색…',
+    'selected' => '선택됨 {n}개',
+    'clear' => '제거',
+    'rechoose' => '다시 선택',
+    'cancel' => '취소',
+    'done' => '완료',
+    'tab_all' => '전체',
+    'tab_image' => '이미지',
+    'tab_file' => '파일',
+    'pager_total' => '총 {n}개',
+    'pager_prev' => '이전',
+    'pager_next' => '다음',
+];

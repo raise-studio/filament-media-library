@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'choose' => 'Choose media',
+    'title' => 'Media Library',
+    'title_image' => 'Select image',
+    'title_file' => 'Select file',
+    'upload' => 'Upload',
+    'uploading' => 'Uploading…',
+    'drag_hint' => 'Drag or click to upload',
+    'hint' => 'Select from existing media, or upload a new file',
+    'empty' => 'No media yet, please upload first',
+    'search' => 'Search files…',
+    'selected' => 'Selected {n}',
+    'clear' => 'Remove',
+    'rechoose' => 'Rechoose',
+    'cancel' => 'Cancel',
+    'done' => 'Done',
+    'tab_all' => 'All',
+    'tab_image' => 'Images',
+    'tab_file' => 'Files',
+    'pager_total' => '{n} items',
+    'pager_prev' => 'Prev',
+    'pager_next' => 'Next',
+];

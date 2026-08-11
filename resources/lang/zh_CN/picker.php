@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'choose' => '选择媒体',
+    'title' => '媒体库',
+    'title_image' => '选择图片',
+    'title_file' => '选择文件',
+    'upload' => '上传',
+    'uploading' => '上传中…',
+    'drag_hint' => '拖拽或点选文件上传',
+    'hint' => '从已有媒体中选择，或上传新文件',
+    'empty' => '暂无媒体，请先上传',
+    'search' => '搜索文件…',
+    'selected' => '已选 {n} 项',
+    'clear' => '移除',
+    'rechoose' => '重新选择',
+    'cancel' => '取消',
+    'done' => '完成',
+    'tab_all' => '全部',
+    'tab_image' => '图片',
+    'tab_file' => '文件',
+    'pager_total' => '共 {n} 项',
+    'pager_prev' => '上一页',
+    'pager_next' => '下一页',
+];
