@@ -1,5 +1,6 @@
 {
     "name": "raise-studio/filament-media-library",
+    "version": "1.0.0",
     "description": "Decoupled, independently publishable Filament media library plugin: central media + reusable picker + folders + tags + multi-disk/OSS + multi-tenancy + content dedup + rich-text insertion.",
     "type": "library",
     "license": "MIT",
