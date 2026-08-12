@@ -42,34 +42,4 @@ class MediaPolicy
         return $authUser->can('DeleteAny:Media');
     }
 
-    public function restore(AuthUser $authUser, Media $media): bool
-    {
-        return $authUser->can('Restore:Media');
-    }
-
-    public function forceDelete(AuthUser $authUser, Media $media): bool
-    {
-        return $authUser->can('ForceDelete:Media');
-    }
-
-    public function forceDeleteAny(AuthUser $authUser): bool
-    {
-        return $authUser->can('ForceDeleteAny:Media');
-    }
-
-    public function restoreAny(AuthUser $authUser): bool
-    {
-        return $authUser->can('RestoreAny:Media');
-    }
-
-    public function replicate(AuthUser $authUser, Media $media): bool
-    {
-        return $authUser->can('Replicate:Media');
-    }
-
-    public function reorder(AuthUser $authUser): bool
-    {
-        return $authUser->can('Reorder:Media');
-    }
-
 }
