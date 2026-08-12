@@ -13,7 +13,7 @@ class FilamentMediaLibraryPlugin implements Plugin
 
     protected string $tenantResolver = NullTenantResolver::class;
 
-    protected bool $useShield = true;
+    protected ?bool $useShield = null;
 
     public static function make(): static
     {
@@ -48,12 +48,17 @@ class FilamentMediaLibraryPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        // 运行时覆盖配置（资源注册 / 租户解析 / 权限策略由插件 fluent 配置驱动）。
+        // 运行时覆盖配置（资源注册 / 租户解析由插件 fluent 配置驱动）。
         config([
             'media-library.register_navigation' => $this->registerNavigation,
             'media-library.tenant_resolver' => $this->tenantResolver,
-            'media-library.use_shield' => $this->useShield,
         ]);
+
+        // use_shield 仅在宿主显式调用 ->useShield(...) 时覆盖配置；
+        // 保留 null 即尊重 config 文件「留空=自动探测（是否安装 Shield）」的语义。
+        if ($this->useShield !== null) {
+            config(['media-library.use_shield' => $this->useShield]);
+        }
 
         // 资源始终注册进面板：保证其路由与 getUrl() 可用（ forge 集成时菜单树驱动导航、
         // 独立使用时资源自身 shouldRegisterNavigation() 决定是否自动出导航，二者互不绑架）。
